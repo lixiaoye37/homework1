@@ -15,7 +15,7 @@ public class NewsItem {
     public NewsItem(String author, String title,String description, String url,String urlToImage,String publishedAt){
         this.author = author;
         this.title = title;
-        this.title = description;
+        this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;

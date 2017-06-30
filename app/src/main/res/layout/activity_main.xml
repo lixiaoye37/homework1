@@ -8,30 +8,21 @@
     >
 
     <EditText
-        android:id="@+id/et_search_box"
+        android:id="@+id/searchQuery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter a query, then click Search"
-        android:textSize="22sp" />
+    />
 
-    <TextView
-        android:id="@+id/tv_url_display"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Click search and your URL will show up here!"
-        android:textSize="22sp" />
+        android:visibility="gone"/>
 
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
-
-        <TextView
-            android:id="@+id/tv_github_search_results_json"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Make a search!"
-            android:textSize="18sp" />
-    </ScrollView>
+        android:layout_height="match_parent"
+        />
 </LinearLayout>

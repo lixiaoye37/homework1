@@ -1,12 +1,17 @@
 package com.example.mark.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,47 +25,47 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-    private EditText mSearchBoxEditText;
-
-    private TextView mUrlDisplayTextView;
-
-    private TextView mSearchResultsTextView;
+    static final String TAG = "mainactivity";
     private ProgressBar progress;
+    private RecyclerView newsRecyclerView;
+    private EditText search;
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSearchBoxEditText = (EditText) findViewById(R.id.et_search_box);
+        progress = (ProgressBar) findViewById(R.id.progressBar);
+        search = (EditText) findViewById(R.id.searchQuery);
+        newsRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
-        mUrlDisplayTextView = (TextView) findViewById(R.id.tv_url_display);
+        newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        NetworkTask news = new NetworkTask();
+        news.execute();
 
-        mSearchResultsTextView = (TextView) findViewById(R.id.tv_github_search_results_json);
-
-
-
-    }
-
-
-    private void makeGithubSearchQuery() {
-        String githubQuery = mSearchBoxEditText.getText().toString();
-        URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
-        mUrlDisplayTextView.setText(githubSearchUrl.toString());
-
-        new Newsquary().execute(githubSearchUrl);
     }
 
 
 
 
-    public class Newsquary extends AsyncTask<URL, Void, ArrayList<NewsItem>> {
 
+
+    class NetworkTask extends AsyncTask<URL, Void, ArrayList<NewsItem>> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress.setVisibility(View.VISIBLE);
+
+        }
 
         @Override
         protected ArrayList<NewsItem> doInBackground(URL... params) {
             ArrayList<NewsItem> result = null;
             URL url = NetworkUtils.buildUrl("25a5cb4b4d0f4e69964b1c735c87485f");
+            Log.d(TAG, "url: " + url.toString());
             try {
                 String json = NetworkUtils.getResponseFromHttpUrl(url);
                 result = NetworkUtils.parseJSON(json);
@@ -72,37 +77,38 @@ public class MainActivity extends AppCompatActivity {
             return result;
         }
 
-
         @Override
         protected void onPostExecute(final ArrayList<NewsItem> data) {
             super.onPostExecute(data);
             progress.setVisibility(View.GONE);
             if (data != null) {
-                GithubAdapter adapter = new GithubAdapter(data, new GithubAdapter.ItemClickListener() {
+                NewsAdapter adapter = new NewsAdapter(data, new NewsAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int clickedItemIndex) {
                         String url = data.get(clickedItemIndex).getUrl();
+                        Log.d(TAG, String.format("Url %s", url));
+                        link(url);
                     }
                 });
-                rv.setAdapter(adapter);
+                newsRecyclerView.setAdapter(adapter);
 
             }
         }
     }
-    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemThatWasClickedId = item.getItemId();
-        if (itemThatWasClickedId == R.id.action_search) {
-            makeGithubSearchQuery();
-            return true;
+
+
+    private void link(String url) {
+        Uri link = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, link);
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -66,7 +66,7 @@ public class NetworkUtils {
     public static ArrayList<NewsItem> parseJSON(String json) throws JSONException {
         ArrayList<NewsItem> result = new ArrayList<>();
         JSONObject main = new JSONObject(json);
-        JSONArray items = main.getJSONArray("items");
+        JSONArray items = main.getJSONArray("articles");
 
         for(int i = 0; i < items.length(); i++){
             JSONObject item = items.getJSONObject(i);

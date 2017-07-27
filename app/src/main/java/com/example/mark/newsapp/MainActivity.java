@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,12 +25,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  LoaderManager.LoaderCallbacks<Void>{
 
     static final String TAG = "mainactivity";
     private ProgressBar progress;
     private RecyclerView newsRecyclerView;
     private EditText search;
+    private static final int NEWS_LOADER = 22;
 
 
     @Override
@@ -46,9 +49,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public Loader<Void> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Void> loader, Void data) {
 
+    }
 
+    @Override
+    public void onLoaderReset(Loader<Void> loader) {
+
+    }
 
 
     class NetworkTask extends AsyncTask<URL, Void, ArrayList<NewsItem>> {

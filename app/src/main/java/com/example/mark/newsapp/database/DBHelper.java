@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Contract.TABLE_NEWS.COLUMN_NAME_DESCRIPTION+" TEXT NOT NULL, "+
                 Contract.TABLE_NEWS.COLUMN_NAME_WEB_URL+" TEXT NOT NULL, "+
                 Contract.TABLE_NEWS.COLUMN_NAME_IMG_URL+" TEXT NOT NULL, "+
-                Contract.TABLE_NEWS.COLUMN_NAME_PUBLISHED+" DATE "+
+                Contract.TABLE_NEWS.COLUMN_NAME_PUBLISHEDAT+" DATE "+
                 "); ";
 
 
@@ -38,6 +38,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE "+Contract.TABLE_NEWS.TABLE_NAME+" if exists;");
+       // db.execSQL("DROP TABLE "+Contract.TABLE_NEWS.TABLE_NAME+" if exists;");
     }
 }

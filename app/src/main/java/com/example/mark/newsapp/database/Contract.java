@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 /**
  * Created by Mark on 2017/7/27.
  */
-
+//create table name and name each comlumn
 public class Contract {
     public static class TABLE_NEWS implements BaseColumns {
 
@@ -21,7 +21,7 @@ public class Contract {
 
         public static final String COLUMN_NAME_IMG_URL="imgage_url";
 
-        public static final String COLUMN_NAME_PUBLISHED="publishedAt";
+        public static final String COLUMN_NAME_PUBLISHEDAT="publishedAt";
 
     }
 }
